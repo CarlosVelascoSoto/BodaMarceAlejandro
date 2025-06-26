@@ -15,10 +15,20 @@
         }
         /* Estilos para la sección principal (hero) con una imagen de fondo */
         .hero-section {
-           
+            /* IMPORTANTE: Para que esta imagen se vea, debes crear una carpeta llamada 'imagenes'
+               en el mismo directorio que tu archivo HTML, y colocar 'imagen5.jpeg' dentro de ella.
+               Ejemplo de estructura de carpetas:
+               - tu_proyecto/
+                 - index.html
+                 - imagenes/
+                   - imagen5.jpeg
+                   - imagen1.jpeg
+                   - imagen2.jpeg
+                   - ...
+            */
             background-image: url('/imagenes/imagen5.jpeg');
             background-size: cover; /* Cubre todo el espacio disponible */
-            background-position: 50% 20%; /* Mantiene el enfoque de la imagen como lo ajustaste */
+            background-position: center; /* Por defecto, centra la imagen */
             background-attachment: fixed; /* Efecto parallax al hacer scroll */
             min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
             display: flex; /* Para centrar el contenido vertical y horizontalmente */
@@ -27,6 +37,17 @@
             text-align: center;
             position: relative; /* Necesario para posicionar el overlay */
         }
+
+        /* Ajustes específicos para dispositivos móviles (pantallas pequeñas) */
+        @media (max-width: 767px) { /* Este media query aplica estilos para pantallas de hasta 767px de ancho (típicamente móviles) */
+            .hero-section {
+                /* Centrar la imagen en móviles para asegurar que los elementos importantes sean visibles */
+                background-position: center;
+                /* Cambiar a 'scroll' para móviles: 'fixed' puede causar problemas de rendimiento o visuales en algunos navegadores móviles */
+                background-attachment: scroll;
+            }
+        }
+
         /* Capa de superposición (overlay) oscura para mejorar la legibilidad del texto en la sección hero */
         .hero-overlay {
             background-color: rgba(0, 0, 0, 0.4); /* 40% de opacidad negra */
@@ -105,7 +126,7 @@
             <p class="text-xl md:text-2xl mb-4 font-serif italic">Con la bendición de Dios y de nuestros padres</p>
             <h1 class="text-5xl md:text-7xl font-bold mb-4 font-serif drop-shadow-lg">Marce <span class="text-4xl md:text-6xl">&</span> Alejandro</h1>
             <p class="text-2xl md:text-4xl mb-8 font-semibold">¡Nos Casamos!</p>
-            <p class="text-xl md:text-3xl mb-8 font-serif">25/10/2025</p>
+            <p class="text-xl md:text-3xl mb-8 font-serif">25 de Octubre, 2025</p>
             <a href="#eventos" id="scroll-to-events" class="btn-primary inline-block text-lg md:text-xl">Ver Detalles del Evento</a>
         </div>
     </section>
@@ -304,15 +325,41 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Actualizar el DOM
-            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            // Asegúrate de que los elementos con estos IDs existan si vas a usar la cuenta regresiva
+            // Actualmente no hay elementos con IDs "days", "hours", "minutes", "seconds" en tu HTML.
+            // Si quieres mostrar la cuenta regresiva, deberías añadir un div con id="countdown"
+            // y dentro de este, span o divs con esos IDs para mostrar los valores.
+            // Por ejemplo:
+            /*
+            <div id="countdown" class="text-center mt-8">
+                <span id="days" class="text-4xl font-bold text-indigo-800"></span> días
+                <span id="hours" class="text-4xl font-bold text-indigo-800"></span> horas
+                <span id="minutes" class="text-4xl font-bold text-indigo-800"></span> minutos
+                <span id="seconds" class="text-4xl font-bold text-indigo-800"></span> segundos
+            </div>
+            */
+            // Por ahora, el script de cuenta regresiva no tendrá un impacto visual si los IDs no están presentes.
+
+            if(document.getElementById("days")) { // Solo actualiza si el elemento existe
+                document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+            }
+            if(document.getElementById("hours")) {
+                document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            }
+            if(document.getElementById("minutes")) {
+                document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            }
+            if(document.getElementById("seconds")) {
+                document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            }
+
 
             // Si la cuenta regresiva termina
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("countdown").innerHTML = "<p class='text-4xl'>¡El Gran Día Ha Llegado!</p>";
+                if(document.getElementById("countdown")) { // Solo actualiza si el elemento existe
+                    document.getElementById("countdown").innerHTML = "<p class='text-4xl'>¡El Gran Día Ha Llegado!</p>";
+                }
             }
         }, 1000);
 
